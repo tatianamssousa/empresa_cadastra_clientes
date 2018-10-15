@@ -25,7 +25,7 @@ class FormaDePagamentoController extends Controller
      */
     public function create()
     {
-        return view('formasDePagamento.form');
+        return view('formasDePagamento.form')->with('formaDePagamento', new FormaDePagamento());
     }
 
     /**
@@ -34,9 +34,11 @@ class FormaDePagamentoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $formaDePagamento = null)
     {
+        if ( $formaDePagamento == null )
         $formaDePagamento = new FormaDePagamento();
+
         $formaDePagamento->nome = $request->get('nome');
         $formaDePagamento->save();
     }
@@ -47,7 +49,7 @@ class FormaDePagamentoController extends Controller
      * @param  \App\Models\FormaDePagamento  $formaDePagamento
      * @return \Illuminate\Http\Response
      */
-    public function show(FormaDePagamento $formaDePagamento)
+    public function show($id)
     {
         //
     }
@@ -58,9 +60,9 @@ class FormaDePagamentoController extends Controller
      * @param  \App\Models\FormaDePagamento  $formaDePagamento
      * @return \Illuminate\Http\Response
      */
-    public function edit(FormaDePagamento $formaDePagamento)
+    public function edit($id)
     {
-        //
+        return $this->create()->with('formaDePagamento',  FormaDePagamento::findorFail($id) )->with('isUpdate', true);
     }
 
     /**
@@ -70,9 +72,10 @@ class FormaDePagamentoController extends Controller
      * @param  \App\Models\FormaDePagamento  $formaDePagamento
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, FormaDePagamento $formaDePagamento)
+    public function update(Request $request, $id)
     {
-        //
+        $formaDePagamento = FormaDePagamento::findOrFail($id);
+        return $this->store($request, $formaDePagamento);
     }
 
     /**
@@ -81,8 +84,9 @@ class FormaDePagamentoController extends Controller
      * @param  \App\Models\FormaDePagamento  $formaDePagamento
      * @return \Illuminate\Http\Response
      */
-    public function destroy(FormaDePagamento $formaDePagamento)
+    public function destroy($id)
     {
-        //
+        $formaDePagamento = FormaDePagamento::findOrFail($id);
+        $formaDePagamento->delete();
     }
 }

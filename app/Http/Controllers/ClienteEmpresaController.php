@@ -34,7 +34,8 @@ class ClienteEmpresaController extends Controller
         return view('cliente_empresas.form')
             ->with('clientes',$clientes)
             ->with('empresas', $empresas)
-            ->with('vendas', $vendas);
+            ->with('vendas', $vendas)
+            ->with('cliente_empresa', new ClienteEmpresa());
     }
 
     /**
@@ -43,9 +44,11 @@ class ClienteEmpresaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $cliente_empresa = null)
     {
+        if ($cliente_empresa == null)
         $cliente_empresa = new ClienteEmpresa();
+
         $cliente_empresa->cliente_id = $request->get('cliente');
         $cliente_empresa->empresa_id = $request->get('empresa');
         $cliente_empresa->venda_id = $request->get('venda');
@@ -71,7 +74,7 @@ class ClienteEmpresaController extends Controller
      */
     public function edit($id)
     {
-        //
+        return $this->create()->with('cliente_empresa',  ClienteEmpresa::findorFail($id) )->with('isUpdate', true);
     }
 
     /**
@@ -83,7 +86,8 @@ class ClienteEmpresaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $cliente_empresa = ClienteEmpresa::findOrFail($id);
+        return $this->store($request, $cliente_empresa);
     }
 
     /**
@@ -94,6 +98,7 @@ class ClienteEmpresaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $cliente_empresa = ClienteEmpresa::findOrFail($id);
+        $cliente_empresa->delete();
     }
 }

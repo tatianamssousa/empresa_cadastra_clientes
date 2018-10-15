@@ -25,7 +25,7 @@ class ClienteController extends Controller
      */
     public function create()
     {
-        return view('clientes.form');
+        return view('clientes.form')->with('cliente', new Cliente());
     }
 
     /**
@@ -34,9 +34,11 @@ class ClienteController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $cliente = null)
     {
+        if ( $cliente == null )
         $cliente = new Cliente();
+
         $cliente->tipo = $request->get('tipo');
         $cliente->nome = $request->get('nome');
         $cliente->cpf = $request->get('cpf');
@@ -82,7 +84,7 @@ class ClienteController extends Controller
      */
     public function edit($id)
     {
-        //
+        return $this->create()->with('cliente',  Cliente::findorFail($id) )->with('isUpdate', true);
     }
 
     /**
@@ -94,7 +96,8 @@ class ClienteController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $cliente = Cliente::findOrFail($id);
+        return $this->store($request, $cliente);
     }
 
     /**
@@ -105,6 +108,7 @@ class ClienteController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $cliente = Cliente::findOrFail($id);
+        $cliente->delete();
     }
 }

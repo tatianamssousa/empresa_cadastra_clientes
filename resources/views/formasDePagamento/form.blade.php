@@ -1,9 +1,10 @@
 @extends('base_layout')
 @section('title', 'Formulario Forma de Pagamento')
 @section('body')
-    <form method="post" action="{{route('formasDePagamento.store')}}">
+    <form method="post" action="{{ isset($isUpdate) ? route('formasDePagamento.update', $formaDePagamento->id) : route('formasDePagamento.store')}}">
         {{csrf_field()}}
-        Nome:<input type="text" name="nome" id="nome" class="obrigatorio"><br><br>
+        {{ isset($isUpdate) ? method_field('PUT') : "" }}
+        Nome:<input type="text" name="nome" id="nome" class="obrigatorio" value="{{$formaDePagamento->nome}}"><br><br>
         <input type="submit" value="Enviar" id="enviar">
     </form>
 @endsection

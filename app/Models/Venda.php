@@ -15,4 +15,7 @@ class Venda extends Model
     public function formaDePagamento(){
         return $this->belongsTo(FormaDePagamento::class, 'formaDePagamento_id');
     }
+    public function situacao(){
+        return $this->belongsTo(Situacao::class);
+    }
 }

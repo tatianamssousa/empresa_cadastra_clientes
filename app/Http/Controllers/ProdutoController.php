@@ -25,7 +25,7 @@ class ProdutoController extends Controller
      */
     public function create()
     {
-        return view('produtos.form');
+        return view('produtos.form')->with('produto', new Produto());;
     }
 
     /**
@@ -34,9 +34,11 @@ class ProdutoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $produto = null)
     {
+        if ( $produto == null )
         $produto = new Produto();
+
         $produto->descricao = $request->get('descricao');
         $produto->valor = $request->get('valor');
         $produto->save();
@@ -61,7 +63,7 @@ class ProdutoController extends Controller
      */
     public function edit($id)
     {
-        //
+        return $this->create()->with('produto',  Produto::findorFail($id) )->with('isUpdate', true);
     }
 
     /**
@@ -73,7 +75,8 @@ class ProdutoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $produto = Produto::findOrFail($id);
+        return $this->store($request, $produto);
     }
 
     /**
@@ -84,6 +87,7 @@ class ProdutoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $produto = Produto::findOrFail($id);
+        $produto->delete();
     }
 }

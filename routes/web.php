@@ -20,3 +20,6 @@ Route::resource('/produtos', 'ProdutoController');
 Route::resource('/vendas', 'VendaController');
 Route::resource('/formasDePagamento', 'FormaDePagamentoController');
 Route::resource('/cliente-empresas', 'ClienteEmpresaController');
+Route::get('/relatorios', 'VendaController@relatoriosForm');
+Route::post('vendas/relatorios', 'VendaController@relatorios')->name('vendas.relatorios');
+Route::resource('/situacoes', 'SituacaoController');

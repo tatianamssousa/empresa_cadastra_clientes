@@ -34,3 +34,6 @@ Route::name('api.')->group(function ($route){
 Route::name('api.')->group(function ($route){
     $route->resource('/cliente-empresas', 'ClienteEmpresaController');
 });
+Route::name('api.')->group(function ($route){
+    $route->resource('/situacoes', 'SituacaoController');
+});

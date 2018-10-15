@@ -1,11 +1,10 @@
 @extends('base_layout')
-@section('title', 'Formulario Produto')
+@section('title', 'Formulario Situação')
 @section('body')
-    <form method="post" action="{{ isset($isUpdate) ? route('produtos.update', $produto->id) : route('produtos.store')}}">
+    <form method="post" action="{{ isset($isUpdate) ? route('situacoes.update', $situacao->id) :route('situacoes.store') }}">
         {{csrf_field()}}
         {{ isset($isUpdate) ? method_field('PUT') : "" }}
-        Descrição:<input type="text" name="descricao" id="descricao" class="obrigatorio" value="{{ $produto->descricao }}"><br>
-        Valor:<input type="text" name="valor" id="valor" class="obrigatorio" value="{{ $produto->valor }}"><br><br>
+        Situação:<input type="text" name="situacao" id="situacao" value="{{$situacao->situacao}}" class="obrigatorio"><br><br>
             <input type="submit" value="Enviar" id="enviar">
     </form>
 @endsection

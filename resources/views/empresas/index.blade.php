@@ -14,6 +14,21 @@
         Cidade:{{$empresa->cidade}}<br>
         Estado:{{$empresa->estado}}<br>
         Telefone:{{$empresa->telefone}}<br>
-        Representante Legal:{{$empresa->cliente->nome}}<br><br>
+        Representante Legal:{{$empresa->cliente->nome}}<br>
+        <form method="post" action="{{  route('empresas.destroy', [$empresa->id]) }}">
+            {{csrf_field()}}
+            {{ method_field('DELETE') }}
+            <input type="submit" value="DELETAR">
+        </form>
+        <form method="get" action="{{  route('empresas.edit', [$empresa->id]) }}">
+            {{csrf_field()}}
+            {{ method_field('EDIT') }}
+            <input type="submit" value="EDITAR">
+        </form>
+        <form method="put" action="{{  route('empresas.update', [$empresa->id]) }}">
+            {{csrf_field()}}
+            {{ method_field('UPDATE') }}
+            <input type="submit" value="SALVAR EDITAR">
+        </form>
     @endforeach
 @endsection

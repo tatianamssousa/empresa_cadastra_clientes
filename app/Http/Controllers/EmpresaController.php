@@ -27,7 +27,7 @@ class EmpresaController extends Controller
     public function create()
     {
         $clientes = Cliente::all();
-        return view('empresas.form')->with('clientes', $clientes);
+        return view('empresas.form')->with('clientes', $clientes)->with('empresa', new Empresa());
     }
 
     /**
@@ -36,9 +36,11 @@ class EmpresaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Cliente $cliente = null)
+    public function store(Request $request, Cliente $cliente = null, $empresa=null)
     {
+        if ( $empresa == null)
         $empresa = new Empresa();
+
         $empresa->nome = $request->get('empresa_nome');
         $empresa->razao = $request->get('empresa_razao');
         $empresa->cnpj = $request->get('empresa_cnpj');
@@ -74,7 +76,7 @@ class EmpresaController extends Controller
      */
     public function edit($id)
     {
-        //
+        return $this->create()->with('empresa',  Empresa::findorFail($id) )->with('isUpdate', true);
     }
 
     /**
@@ -86,7 +88,8 @@ class EmpresaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $empresa = Empresa::findOrFail($id);
+        return $this->store($request, $empresa);
     }
 
     /**
@@ -97,6 +100,7 @@ class EmpresaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $empresa = Empresa::findOrFail($id);
+        $empresa->delete();
     }
 }

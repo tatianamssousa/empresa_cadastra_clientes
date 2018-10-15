@@ -20,7 +20,7 @@ class CriarTabelaVenda extends Migration
             $table->integer('quantidade')->unsigned();
             $table->string('valor');
             $table->integer('formaDePagamento_id')->unsigned();
-            $table->string('vencimento');
+            $table->date('vencimento');
             $table->timestamps();
             $table->softDeletes();
 
