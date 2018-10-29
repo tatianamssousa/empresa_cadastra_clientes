@@ -55,6 +55,8 @@ class EmpresaController extends Controller
         $empresa->telefone = $request->get('empresa_telefone');
         $empresa->cliente_id = $cliente->id;
         $empresa->save();
+
+        return $empresa;
     }
 
     /**

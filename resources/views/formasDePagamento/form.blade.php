@@ -4,8 +4,10 @@
     <form method="post" action="{{ isset($isUpdate) ? route('formasDePagamento.update', $formaDePagamento->id) : route('formasDePagamento.store')}}">
         {{csrf_field()}}
         {{ isset($isUpdate) ? method_field('PUT') : "" }}
-        Nome:<input type="text" name="nome" id="nome" class="obrigatorio" value="{{$formaDePagamento->nome}}"><br><br>
-        <input type="submit" value="Enviar" id="enviar">
+        <div class="col-md-3">
+            <b class="text-uppercase">Nome:</b><input type="text" name="nome" id="nome" class="obrigatorio form-control" value="{{$formaDePagamento->nome}}"><br>
+            <input type="submit" value="Enviar" id="enviar" class="btn btn-primary offset-md-4">
+        </div>
     </form>
 @endsection
 @section('rodape')

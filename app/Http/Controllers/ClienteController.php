@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cliente;
+use App\Models\ClienteEmpresa;
+use App\Models\Empresa;
 use Illuminate\Http\Request;
 
 class ClienteController extends Controller
@@ -25,7 +27,8 @@ class ClienteController extends Controller
      */
     public function create()
     {
-        return view('clientes.form')->with('cliente', new Cliente());
+        return view('clientes.form')->with('cliente', new Cliente())
+            ->with('empresa', new Empresa());
     }
 
     /**
@@ -36,6 +39,7 @@ class ClienteController extends Controller
      */
     public function store(Request $request, $cliente = null)
     {
+        \DB::beginTransaction();
         if ( $cliente == null )
         $cliente = new Cliente();
 
@@ -59,8 +63,16 @@ class ClienteController extends Controller
 
         if ( $cliente->tipo == "pj") {
             $empresa = new EmpresaController();
-            $empresa->store($request, $cliente);
+            $cliente_empresa = new ClienteEmpresaController();
+            $empresa = $empresa->store($request, $cliente);
+            $cliente_empresa->store($request, $cliente, $empresa);
+
+
         }
+
+
+
+        \DB::commit();
 
         return view('clientes.sucesso');
     }
@@ -84,7 +96,9 @@ class ClienteController extends Controller
      */
     public function edit($id)
     {
-        return $this->create()->with('cliente',  Cliente::findorFail($id) )->with('isUpdate', true);
+        $cliente = Cliente::findOrFail($id);
+        return $cliente->empresa;
+        //return $this->create()->with('cliente',  Cliente::findorFail($id) )->with('isUpdate', true);
     }
 
     /**

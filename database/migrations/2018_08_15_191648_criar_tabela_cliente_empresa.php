@@ -17,7 +17,6 @@ class CriarTabelaClienteEmpresa extends Migration
             $table->increments('id');
             $table->integer('cliente_id')->unsigned();
             $table->integer('empresa_id')->unsigned();
-            $table->integer('venda_id')->unsigned();
             $table->timestamps();
             $table->softDeletes();
 
@@ -27,9 +26,6 @@ class CriarTabelaClienteEmpresa extends Migration
             $table->foreign('empresa_id', 'cliente_empresa_fk_empresa')
                 ->references('id')
                 ->on('empresas');
-            $table->foreign('venda_id', 'cliente_empresa_fk_venda')
-                ->references('id')
-                ->on('vendas');
         });
     }
 
@@ -43,7 +39,6 @@ class CriarTabelaClienteEmpresa extends Migration
         Schema::table('cliente_empresas',function (Blueprint $table) {
             $table->dropForeign('cliente_empresa_fk_cliente');
             $table->dropForeign('cliente_empresa_fk_empresa');
-            $table->dropForeign('cliente_empresa_fk_venda');
         });
         Schema::dropIfExists('cliente_empresas');
     }

@@ -12,7 +12,4 @@ class ClienteEmpresa extends Model
     public function empresa(){
         return $this->belongsTo(Empresa::class);
     }
-    public function venda(){
-        return $this->belongsTo(Venda::class);
-    }
 }

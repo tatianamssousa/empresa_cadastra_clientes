@@ -17,7 +17,7 @@ class ClienteEmpresaController extends Controller
      */
     public function index()
     {
-        $cliente_empresas = ClienteEmpresa::with('cliente')->with('empresa')->with('venda')->get();
+        $cliente_empresas = ClienteEmpresa::with('cliente')->with('empresa')->get();
         return view('cliente_empresas.index')->with('cliente_empresas', $cliente_empresas);
     }
 
@@ -30,11 +30,9 @@ class ClienteEmpresaController extends Controller
     {
         $clientes = Cliente::all();
         $empresas = Empresa::all();
-        $vendas = Venda::all();
         return view('cliente_empresas.form')
             ->with('clientes',$clientes)
             ->with('empresas', $empresas)
-            ->with('vendas', $vendas)
             ->with('cliente_empresa', new ClienteEmpresa());
     }
 
@@ -44,14 +42,12 @@ class ClienteEmpresaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $cliente_empresa = null)
+    public function store(Request $request, $cliente, $empresa)
     {
-        if ($cliente_empresa == null)
         $cliente_empresa = new ClienteEmpresa();
 
-        $cliente_empresa->cliente_id = $request->get('cliente');
-        $cliente_empresa->empresa_id = $request->get('empresa');
-        $cliente_empresa->venda_id = $request->get('venda');
+        $cliente_empresa->cliente_id = $cliente->id;
+        $cliente_empresa->empresa_id = $empresa->id;
         $cliente_empresa->save();
     }
 
